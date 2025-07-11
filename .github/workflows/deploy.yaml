@@ -2,13 +2,14 @@ name: Deploy to AWS
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v3
 
     - name: Set up Python
@@ -16,8 +17,12 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+    - name: Build Docker image with GitHub token
+      run: |
+        docker build \
+          --build-arg GITHUB_PAT=${{ secrets.GITHUB_PAT }} \
+          -t restaurant-ai-poc .
 
-    - name: Deploy (Placeholder)
-      run: echo "Use CDK, SAM or Copilot to deploy to Lambda/ECS"
+    - name: Deploy to AWS
+      run: |
+        echo "Your ECS/Fargate/SAM/CDK deployment command here"
