@@ -1,0 +1,97 @@
+[
+  {
+    "tool_name": "checkAvailability",
+    "description": "Query table availability for a given party size and time.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "party_size": { "type": "integer" },
+        "time": { "type": "string", "format": "date-time" }
+      },
+      "required": ["party_size", "time"]
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "available_tables": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "endpoint": "https://api.example.com/reservation/check",
+    "method": "POST",
+    "auth": "IAM"
+  },
+  {
+    "tool_name": "createReservation",
+    "description": "Creates a reservation and assigns a table.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "guest_id": { "type": "string" },
+        "party_size": { "type": "integer" },
+        "requested_time": { "type": "string", "format": "date-time" }
+      },
+      "required": ["guest_id", "party_size", "requested_time"]
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "reservation_id": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "endpoint": "https://api.example.com/reservation",
+    "method": "POST",
+    "auth": "IAM"
+  },
+  {
+    "tool_name": "getGuestPreferences",
+    "description": "Returns preferences and allergy information for a guest.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "guest_id": { "type": "string" }
+      },
+      "required": ["guest_id"]
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "preferences": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "allergies": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "endpoint": "https://api.example.com/guest/{guest_id}",
+    "method": "GET",
+    "auth": "IAM"
+  },
+  {
+    "tool_name": "updateTableStatus",
+    "description": "Updates a table's current status.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "table_id": { "type": "string" },
+        "status": { "type": "string", "enum": ["available", "occupied", "cleaning", "reserved"] }
+      },
+      "required": ["table_id", "status"]
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "string" }
+      }
+    },
+    "endpoint": "https://api.example.com/table/{table_id}/status",
+    "method": "POST",
+    "auth": "IAM"
+  }
+]
